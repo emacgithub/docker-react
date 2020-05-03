@@ -15,3 +15,35 @@ services:  # basically our list of containers
         volumes:
             - /app/node_modules # use the node_modules in the container only
             - .:/app # map all files in current working directory to the /app folder in the container so we can changes made locally reflect in the container
+        web:   # this is our react app container name
+        stdin_open: true # needed to fix a react app bug using docker compose
+        build:  
+            context: . # build with all the files in the current working directory
+            dockerfile: Dockerfile.dev # location of the Dockerfile
+
+        ports:
+            - "3000:3000" # map port 3000 inside the container to port 3000 outside the container
+        volumes:
+            - /app/node_modules # use the node_modules in the container only
+            - .:/app # map all files in current working directory to the /app folder in the container so we can changes made locally reflect in the container
+    web:   # this is our react app container name
+        stdin_open: true # needed to fix a react app bug using docker compose
+        build:  
+            context: . # build with all the files in the current working directory
+            dockerfile: Dockerfile.dev # location of the Dockerfile
+
+        ports:
+            - "3000:3000" # map port 3000 inside the container to port 3000 outside the container
+        volumes:
+            - /app/node_modules # use the node_modules in the container only
+            - .:/app # map all files in current working directory to the /app folder in the container so we can changes made locally reflect in the container
+    # Create a test container on startup by just adding the command option to override Dockerfile.dev CMD
+    # The downside is that it does not allow you to be interactive with the tests,  it's just logging it out
+    test:
+        build: 
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes: 
+            - /app/node_modules
+            - .:/app
+        command: ["npm", "run", "test"] #Overrides Dockerfile.dev CMD to run the tests
