@@ -1,0 +1,13 @@
+version: '3' # version 3 of docker compose
+services:  # basically our list of containers
+    web:   # this is our react app container name
+        stdin_open: true # needed to fix a react app bug using docker compose
+        build:  
+            context: . # build with all the files in the current working directory
+            dockerfile: Dockerfile.dev # location of the Dockerfile
+
+        ports:
+            - "3000:3000" # map port 3000 inside the container to port 3000 outside the container
+        volumes:
+            - /app/node_modules # use the node_modules in the container only
+            - .:/app # map all files in current working directory to the /app folder in the container so we can changes made locally reflect in the container
