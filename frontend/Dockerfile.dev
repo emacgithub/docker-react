@@ -5,6 +5,9 @@ WORKDIR '/app'
 COPY package.json .
 RUN npm install
 
-COPY . .
+# COPY command is optional since we are using volumes in docker-compose.yml file
+# to point back to project directory.  However if we get rid of docker-compose.yml
+# we need this COPY command
+COPY . . 
 
 CMD ["npm", "run", "start"]

@@ -1,5 +1,9 @@
 version: '3' # version 3 of docker compose
 services:  # basically our list of containers
+    # Automatic react updates seem to work without the CHOKIDAR_USEPOLLING option docker compose.  
+    # If it stops working or on windows maching add uncomment below 
+    #environment:
+        #- CHOKIDAR_USEPOLLING=true
     web:   # this is our react app container name
         stdin_open: true # needed to fix a react app bug using docker compose
         build:  
